@@ -3,7 +3,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -24,7 +23,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api", indexRouter);
+app.use("/api/users", usersRouter);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  const status = err.status || 500;
+  res.status(status).json({
+    message: err.message || "Something went wrong",
+  });
+});
 
 module.exports = app;
