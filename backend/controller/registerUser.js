@@ -25,7 +25,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     message: "User created successfuly",
-    user: { Fname, Lname, email, role },
+    user: {
+      Fname: newUser.Fname,
+      Lname: newUser.Lname,
+      email: newUser.email,
+      role: newUser.role,
+    },
     token,
   });
 });
