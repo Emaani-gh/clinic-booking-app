@@ -21,7 +21,7 @@ const Login = asyncHandler(async (req, res) => {
   }
 
   // GEN token for JWT
-  const token = genToken(user.id);
+  const token = genToken(user);
 
   // RETURN RESPONSE
   res.status(200).json({ message: "Login successfully", token });

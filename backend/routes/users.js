@@ -2,6 +2,7 @@ var express = require("express");
 const Protected = require("../middleware/authMiddlware");
 const registerUser = require("../controller/registerUser");
 const Login = require("../controller/login");
+const getMe = require("../controller/me");
 var router = express.Router();
 
 /* GET users listing. */
@@ -14,5 +15,7 @@ router.post("/register", registerUser);
 
 // LOGIN
 router.post("/login", Login);
+
+router.get("/me", Protected, getMe);
 
 module.exports = router;
