@@ -21,7 +21,7 @@ const registerUser = asyncHandler(async (req, res) => {
     role,
   });
 
-  const token = genToken(newUser.id);
+  const token = genToken(newUser);
 
   res.status(201).json({
     message: "User created successfuly",
