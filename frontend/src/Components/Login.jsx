@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authServices";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
+  const { actions } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -11,7 +13,10 @@ const Login = () => {
 
     try {
       const res = await login(formData);
+
       if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        await actions.fetchUser();
         navigate("/dashboard");
       }
     } catch (error) {
