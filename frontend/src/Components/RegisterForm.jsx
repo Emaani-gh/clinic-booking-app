@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { register } from "../services/authServices";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
+
+  const { actions } = useContext(AuthContext);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,6 +18,9 @@ const RegisterForm = () => {
       const res = await register(formData);
 
       if (res.status === 201) {
+        localStorage.setItem("token", res.data.token);
+        await actions.fetchUser();
+
         navigate("/dashboard");
       } else {
         alert("Registration was not successful.");
